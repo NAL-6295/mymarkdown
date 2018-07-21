@@ -20,7 +20,7 @@
 </template>
  
 <script>
-import marked from 'marked';
+import showdown from 'showdown';
  export default {
   name: 'editor',
 props: ['user'],
@@ -34,6 +34,11 @@ props: ['user'],
   }
   },
 created:function(){
+    showdown.setOption('omitExtraWLInCodeBlocks', 'true');
+    showdown.setOption('noHeaderId', 'true');
+    showdown.setOption('parseImgDimensions', 'true');
+    showdown.setOption('tables', 'true');
+    showdown.setOption('tasklists', 'true');
     firebase.database()
     .ref('memos/' + this.user.uid)
     .once('value')
@@ -58,7 +63,9 @@ methods:{
         this.selectedIndex = index;
     },
     preview:function(){
-        return marked(this.memos[this.selectedIndex].markdown);
+        var converter = new showdown.Converter();
+
+        return  converter.makeHtml(this.memos[this.selectedIndex].markdown);
     },
     deleteMemo:function(){
         this.memos.splice(this.selectedIndex,1);
