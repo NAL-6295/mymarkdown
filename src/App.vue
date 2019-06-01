@@ -11,6 +11,20 @@
 　import Home from './components/Home.vue';
 　import Editor from './components/Editor.vue';
 　
+ 
+ const store = new Vuex.Store({
+   state:{
+     count :0
+   },
+   mutations:{
+     increment(state){
+       state.count++;
+     }
+   }
+ })
+
+
+
 　export default {
 　 name: 'app',
 　 data() {
